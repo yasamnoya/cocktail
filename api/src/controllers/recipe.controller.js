@@ -6,7 +6,7 @@ const createRecipe = async (req, res) => {
 };
 
 const getRecipes = async (req, res) => {
-  const result = await recipeService.queryRecipes();
+  const result = await recipeService.queryRecipes(req.body);
   res.json(result);
 };
 
