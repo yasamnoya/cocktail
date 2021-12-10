@@ -1,4 +1,3 @@
-const { getRecipe } = require('../controllers/recipe.controller');
 const { Recipe } = require('../models');
 
 const createRecipe = async (recipeBody) => {
@@ -16,7 +15,7 @@ const getRecipeById = async (recipeId) => {
   return recipe;
 };
 
-const updateRecipe = async (recipeId, updateBody) => {
+const updateRecipeById = async (recipeId, updateBody) => {
   const [numOfUpdates, updatedRow] = await Recipe.update(
     updateBody,
     { where: { id: recipeId }, returning: true },
@@ -26,7 +25,7 @@ const updateRecipe = async (recipeId, updateBody) => {
   return updatedRow;
 };
 
-const deleteRecipe = async (recipeId) => {
+const deleteRecipeById = async (recipeId) => {
   const result = await Recipe.delete({ where: { id: recipeId } });
   return result;
 };
@@ -35,6 +34,6 @@ module.exports = {
   createRecipe,
   queryRecipes,
   getRecipeById,
-  updateRecipe,
-  deleteRecipe,
+  updateRecipeById,
+  deleteRecipeById,
 };

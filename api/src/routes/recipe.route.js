@@ -8,6 +8,6 @@ router.route('/')
 router.route('/:recipeId')
   .get(recipeController.getRecipe)
   .patch(recipeController.updateRecipe)
-  .delete(recipeController.deleteRecipes);
+  .delete(recipeController.deleteRecipe);
 
 module.exports = router;
