@@ -1,10 +1,12 @@
 <template>
   <div class="card">
     <ul class="list-group list-group-flush">
-      <li v-for="recipe in recipes" :key="recipe.id" class="list-group-item">
-        <div class="card-title fs-3">{{ recipe.title }}</div>
-        <div class="card-text">{{ recipe.instruction }}</div>
-      </li>
+      <router-link v-for="recipe in recipes" :key="recipe.id" :to="`/recipes/${recipe.id}`">
+        <li class="list-group-item">
+          <div class="card-title fs-3">{{ recipe.title }}</div>
+          <div class="card-text">{{ recipe.instruction }}</div>
+        </li>
+      </router-link>
     </ul>
   </div>
 </template>
@@ -26,3 +28,9 @@ export default {
   },
 };
 </script>
+
+<style>
+a {
+  text-decoration: none;
+}
+</style>

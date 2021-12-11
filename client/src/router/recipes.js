@@ -9,6 +9,11 @@ const routes = [
     name: 'CreateRecipe',
     component: () => import('../views/recipe/CreateRecipe.vue'),
   },
+  {
+    path: '/recipes/:recipeId',
+    name: 'RecipeDetails',
+    component: () => import('../views/recipe/RecipeDetails.vue'),
+  },
 ];
 
 export default routes;
