@@ -2,7 +2,7 @@
   <div id="app" class="bg-dark">
     <div id="nav" class="mb-3">___</div>
     <div id="body" class="container">
-      <router-view class="col-md-8 offset-md-2" />
+      <router-view class="col-md-10 offset-md-1" />
     </div>
   </div>
 </template>
