@@ -26,7 +26,7 @@ const updateRecipeById = async (recipeId, updateBody) => {
 };
 
 const deleteRecipeById = async (recipeId) => {
-  const result = await Recipe.delete({ where: { id: recipeId } });
+  const result = await Recipe.destroy({ where: { id: recipeId } });
   return result;
 };
 
