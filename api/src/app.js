@@ -12,4 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.sendStatus(500);
+});
+
 module.exports = app;
