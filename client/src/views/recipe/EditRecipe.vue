@@ -49,11 +49,7 @@ export default {
   async created() {
     try {
       const res = await axios.get(`/recipes/${this.$route.params.recipeId}`);
-      const recipe = res.data;
-      recipe.steps = recipe.Steps;
-      delete recipe.Steps;
-
-      this.recipe = recipe;
+      this.recipe = res.data;
     } catch (e) {
       console.warn(e);
     }
