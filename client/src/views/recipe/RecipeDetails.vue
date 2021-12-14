@@ -33,8 +33,6 @@ export default {
     try {
       const res = await axios.get(`/recipes/${this.$route.params.recipeId}`);
       this.recipe = res.data;
-      this.recipe.steps = this.recipe.Steps;
-      delete this.recipe.Steps;
     } catch (e) {
       console.warn(e);
     }

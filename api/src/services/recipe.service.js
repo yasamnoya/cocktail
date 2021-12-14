@@ -6,7 +6,7 @@ const createRecipe = async (bodyRecipeWithoutSteps, bodySteps) => {
   const bodyStepsWithRecipeId = bodySteps.map((step) => ({ recipeId: recipe.id, ...step }));
   const steps = await Step.bulkCreate(bodyStepsWithRecipeId);
   await recipe.addStep(steps);
-  await recipe.reload({ include: ['Steps'] });
+  await recipe.reload({ include: ['steps'] });
   return recipe;
 };
 
@@ -16,7 +16,7 @@ const queryRecipes = async (filter) => {
 };
 
 const getRecipeById = async (recipeId) => {
-  const recipe = await Recipe.findOne({ where: { id: recipeId }, include: 'Steps' });
+  const recipe = await Recipe.findOne({ where: { id: recipeId }, include: ['steps'] });
   return recipe;
 };
 
@@ -30,7 +30,7 @@ const updateRecipeById = async (recipeId, bodyRecipeWithoutSteps, bodySteps) => 
   await Step.destroy({ where: { recipeId, stepNo: { [Op.gt]: bodySteps.length } } });
   await Step.bulkCreate(bodyStepsWithRecipeId, { updateOnDuplicate: ['instruction'] });
 
-  await recipe.reload({ include: ['Steps'] });
+  await recipe.reload({ include: ['steps'] });
   return recipe;
 };
 
