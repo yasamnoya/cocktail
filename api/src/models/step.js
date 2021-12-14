@@ -10,12 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Recipe);
+      this.belongsTo(models.Recipe, { foreignKey: 'recipeId' });
     }
   }
   Step.init({
-    recipe_id: DataTypes.INTEGER,
-    step_no: DataTypes.INTEGER,
+    recipeId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+    stepNo: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
     instruction: DataTypes.STRING,
   }, {
     sequelize,

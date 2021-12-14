@@ -1,7 +1,12 @@
-const { Recipe } = require('../models');
+const { Op } = require('sequelize');
+const { Recipe, Step } = require('../models');
 
-const createRecipe = async (recipeBody) => {
-  const recipe = await Recipe.create(recipeBody);
+const createRecipe = async (bodyRecipeWithoutSteps, bodySteps) => {
+  const recipe = await Recipe.create(bodyRecipeWithoutSteps);
+  const bodyStepsWithRecipeId = bodySteps.map((step) => ({ recipeId: recipe.id, ...step }));
+  const steps = await Step.bulkCreate(bodyStepsWithRecipeId);
+  await recipe.addStep(steps);
+  await recipe.reload({ include: ['Steps'] });
   return recipe;
 };
 
@@ -11,22 +16,27 @@ const queryRecipes = async (filter) => {
 };
 
 const getRecipeById = async (recipeId) => {
-  const recipe = await Recipe.findOne({ where: { id: recipeId } });
+  const recipe = await Recipe.findOne({ where: { id: recipeId }, include: 'Steps' });
   return recipe;
 };
 
-const updateRecipeById = async (recipeId, updateBody) => {
-  const [numOfUpdates, updatedRow] = await Recipe.update(
-    updateBody,
-    { where: { id: recipeId }, returning: true },
-  );
+const updateRecipeById = async (recipeId, bodyRecipeWithoutSteps, bodySteps) => {
+  const recipe = await Recipe.findOne({ where: { id: recipeId } });
+  if (!recipe) return null;
 
-  if (!numOfUpdates) return null;
-  return updatedRow;
+  await recipe.update(bodyRecipeWithoutSteps);
+
+  const bodyStepsWithRecipeId = bodySteps.map((step) => ({ recipeId, ...step }));
+  await Step.destroy({ where: { recipeId, stepNo: { [Op.gt]: bodySteps.length } } });
+  await Step.bulkCreate(bodyStepsWithRecipeId, { updateOnDuplicate: ['instruction'] });
+
+  await recipe.reload({ include: ['Steps'] });
+  return recipe;
 };
 
 const deleteRecipeById = async (recipeId) => {
   const result = await Recipe.destroy({ where: { id: recipeId } });
+  await Step.destroy({ where: { recipeId } });
   return result;
 };
 

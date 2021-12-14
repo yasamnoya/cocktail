@@ -2,7 +2,8 @@ const { recipeService } = require('../services');
 const catchAsync = require('../utils/catchAsync');
 
 const createRecipe = catchAsync(async (req, res) => {
-  const recipe = await recipeService.createRecipe(req.body);
+  const { steps, ...recipeWithoutSteps } = req.body;
+  const recipe = await recipeService.createRecipe(recipeWithoutSteps, steps);
   res.status(201).json(recipe);
 });
 
@@ -19,7 +20,12 @@ const getRecipe = catchAsync(async (req, res) => {
 });
 
 const updateRecipe = catchAsync(async (req, res) => {
-  const recipe = await recipeService.updateRecipeById(req.params.recipeId, req.body);
+  const { steps, ...recipeWithoutSteps } = req.body;
+  const recipe = await recipeService.updateRecipeById(
+    req.params.recipeId,
+    recipeWithoutSteps,
+    steps,
+  );
 
   if (!recipe) return res.status(404).json({ message: 'recipe not found' });
   res.json(recipe);

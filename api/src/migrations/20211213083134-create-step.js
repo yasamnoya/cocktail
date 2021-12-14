@@ -1,18 +1,16 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Steps', {
-      id: {
+      recipeId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      recipe_id: {
-        type: Sequelize.INTEGER,
         reference: { model: 'Recipes', key: 'id' },
       },
-      step_no: {
+      stepNo: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
       },
       instruction: {
         type: Sequelize.STRING,
