@@ -9,12 +9,28 @@
         </div>
         <div class="form-floating mb-3">
           <textarea
-            v-model="recipe.instruction"
+            v-model="recipe.description"
             class="form-control h-100"
             rows="3"
-            placeholder="步驟"
+            placeholder="簡介"
           ></textarea>
-          <label>步驟</label>
+          <label>簡介</label>
+        </div>
+
+        <div class="d-flex gap-3">
+          <div class="input-group mb-3 w-100">
+            <input
+              v-model="recipe.amountInMl"
+              type="text"
+              class="form-control"
+              placeholder="份量"
+            />
+            <span class="input-group-text">ml</span>
+          </div>
+          <div class="input-group mb-3 w-100">
+            <input v-model="recipe.avl" type="text" class="form-control" placeholder="酒精濃度" />
+            <span class="input-group-text">%</span>
+          </div>
         </div>
 
         <div class="card-title mt-5">
@@ -56,8 +72,8 @@ export default {
   },
   methods: {
     async submit() {
-      const { title, instruction } = this.recipe;
-      if (!title.length || !instruction.length) return;
+      const { title, description } = this.recipe;
+      if (!title.length || !description.length) return;
 
       this.recipe.steps = this.recipe.steps.map((step, index) => ({
         stepNo: index + 1,

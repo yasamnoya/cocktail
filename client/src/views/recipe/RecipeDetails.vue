@@ -3,7 +3,23 @@
     <div class="card mb-3">
       <div class="card-body">
         <h1 class="card-title">{{ recipe.title }}</h1>
-        <p class="card-text fs-5">{{ recipe.instruction }}</p>
+        <p class="card-text fs-5">{{ recipe.description }}</p>
+
+        <div class="d-flex gap-3 mb-3 text-center">
+          <div class="border border-2 rounded w-100 p-2">
+            <h5 class="fw-bold">份量</h5>
+            <p class="m-0">
+              <span class="fs-5">{{ recipe.amountInMl }}</span> ml
+            </p>
+          </div>
+          <div class="border border-2 rounded w-100 p-2">
+            <h5 class="fw-bold">酒精濃度</h5>
+            <p class="m-0">
+              <span class="fs-5">{{ recipe.avl }}</span> %
+            </p>
+          </div>
+        </div>
+
         <h3>步驟</h3>
         <div v-for="(step, index) in recipe.steps" :key="index" class="step-block ms-3 mb-3">
           <div class="d-flex gap-3">
