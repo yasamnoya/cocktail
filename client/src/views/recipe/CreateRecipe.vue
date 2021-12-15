@@ -9,12 +9,22 @@
         </div>
         <div class="form-floating mb-3">
           <textarea
-            v-model="instruction"
+            v-model="description"
             class="form-control h-100"
             rows="3"
-            placeholder="步驟"
+            placeholder="簡介"
           ></textarea>
-          <label>步驟</label>
+          <label>簡介</label>
+        </div>
+        <div class="d-flex gap-3">
+          <div class="input-group mb-3 w-100">
+            <input type="text" class="form-control" placeholder="份量" />
+            <span class="input-group-text">ml</span>
+          </div>
+          <div class="input-group mb-3 w-100">
+            <input type="text" class="form-control" placeholder="酒精濃度" />
+            <span class="input-group-text">%</span>
+          </div>
         </div>
 
         <div class="card-title mt-5">
@@ -45,7 +55,7 @@ import axios from 'axios';
 export default {
   data: () => ({
     title: '',
-    instruction: '',
+    description: '',
     steps: [],
   }),
   created() {
@@ -53,16 +63,16 @@ export default {
   },
   methods: {
     async submit() {
-      const { title, instruction } = this;
-      if (!title.length || !instruction.length) return;
+      const { title, description } = this;
+      if (!title.length || !description.length) return;
       const steps = this.steps.map((step, index) => ({
         stepNo: index + 1,
         ...step,
       }));
 
       try {
-        console.log({ title, instruction, steps });
-        await axios.post('/recipes', { title, instruction, steps });
+        console.log({ title, description, steps });
+        await axios.post('/recipes', { title, description, steps });
         this.$router.push('/recipes');
       } catch (e) {
         console.warn(e);
